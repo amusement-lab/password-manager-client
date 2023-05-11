@@ -6,7 +6,11 @@ import "./index.css";
 import MainLayout from "./layouts/main.tsx";
 
 import List from "./pages/list.tsx";
+import Add from "./pages/add.tsx";
+import Edit from "./pages/edit.tsx";
+import ChangeKey from "./pages/changeKey.tsx";
 import Login from "./pages/login.tsx";
+import Register from "./pages/register.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,11 +21,27 @@ const router = createBrowserRouter([
         path: "/",
         element: <List />,
       },
+      {
+        path: "/add",
+        element: <Add />,
+      },
+      {
+        path: "/edit/:id",
+        element: <Edit />,
+      },
+      {
+        path: "/change-key",
+        element: <ChangeKey />,
+      },
     ],
   },
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 ]);
 
