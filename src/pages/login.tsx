@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { KeyIcon } from "@heroicons/react/24/outline";
 
 export default function Login() {
@@ -27,8 +28,6 @@ export default function Login() {
               </div>
 
               <div>
-                <div className="flex items-center justify-between"></div>
-
                 <input
                   id="password"
                   name="password"
@@ -50,12 +49,12 @@ export default function Login() {
               </div>
             </form>
             <p className="mt-5 text-center text-sm text-gray-500">
-              <a
-                href="#"
+              <Link
+                to="/register"
                 className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
               >
                 Register
-              </a>
+              </Link>
             </p>
           </div>
         </div>

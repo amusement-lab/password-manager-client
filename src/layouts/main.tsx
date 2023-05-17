@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, KeyIcon } from "@heroicons/react/24/outline";
 
@@ -11,7 +11,7 @@ const user = {
 
 const userNavigation = [
   { name: "Sign out", href: "/login" },
-  { name: "Change key", href: "/" },
+  { name: "Change key", href: "/change-key" },
 ];
 
 function classNames(...classes: any) {
@@ -62,15 +62,15 @@ export default function Example() {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <Link
+                                    to={item.href}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 )}
                               </Menu.Item>
                             ))}
@@ -122,11 +122,9 @@ export default function Example() {
                     {userNavigation.map((item) => (
                       <Disclosure.Button
                         key={item.name}
-                        as="a"
-                        href={item.href}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                       >
-                        {item.name}
+                        <Link to={item.href}>{item.name}</Link>
                       </Disclosure.Button>
                     ))}
                   </div>

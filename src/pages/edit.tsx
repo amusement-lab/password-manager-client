@@ -1,6 +1,7 @@
-import { XCircleIcon, EyeIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+import { EyeIcon } from "@heroicons/react/24/outline";
 
-export default function Example() {
+export default function Edit() {
   return (
     <>
       <header className="bg-white shadow">
@@ -76,12 +77,14 @@ export default function Example() {
             </div>
 
             <div className="mt-8 flex items-center justify-end gap-x-6">
-              <button
-                type="button"
-                className="text-sm font-semibold leading-6 text-gray-900"
-              >
-                Cancel
-              </button>
+              <Link to="/">
+                <button
+                  type="button"
+                  className="text-sm font-semibold leading-6 text-gray-900"
+                >
+                  Cancel
+                </button>
+              </Link>
               <button
                 type="submit"
                 className="rounded-md bg-indigo-600 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

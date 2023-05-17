@@ -1,4 +1,12 @@
-import { EyeIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  EyeIcon,
+  PlusCircleIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/outline";
+
+import Modal from "../components/modal";
 
 const passwords = [
   {
@@ -23,7 +31,9 @@ const passwords = [
   },
 ];
 
-export default function Example() {
+export default function List() {
+  const [show, setShow] = useState(false);
+
   return (
     <>
       <header className="bg-white shadow">
@@ -31,12 +41,12 @@ export default function Example() {
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">
             Password List
           </h1>
-          <button
-            type="submit"
+          <Link
+            to="/add"
             className="rounded-full bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             <PlusCircleIcon className="block h-5 w-5" />
-          </button>
+          </Link>
         </div>
       </header>
       <main>
@@ -74,19 +84,27 @@ export default function Example() {
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <p className="text-sm text-gray-900">
-                    <button
-                      type="submit"
+                  <button
+                    onClick={() => setShow(true)}
+                    type="submit"
+                    className="rounded-md p-2 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    <EyeIcon className="block h-5 w-5" />
+                  </button>
+                  <Link to="/edit/1">
+                    <div
+                      onClick={() => setShow(true)}
                       className="rounded-md p-2 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                      <EyeIcon className="block h-5 w-5" />
-                    </button>
-                  </p>
+                      <PencilSquareIcon className="block h-5 w-5" />
+                    </div>
+                  </Link>
                 </div>
               </li>
             ))}
           </ul>
         </div>
+        <Modal show={show} closeModal={() => setShow(false)} />
       </main>
     </>
   );

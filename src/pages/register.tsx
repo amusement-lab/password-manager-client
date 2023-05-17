@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import { KeyIcon } from "@heroicons/react/24/outline";
 
-export default function Login() {
+export default function Register() {
   return (
     <>
       <div className="h-[100vh]">
@@ -62,12 +63,14 @@ export default function Login() {
               </div>
             </form>
             <p className="mt-5 text-center text-sm text-gray-500">
-              <a
-                href="#"
-                className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-              >
-                Login
-              </a>
+              <p className="mt-5 text-center text-sm text-gray-500">
+                <Link
+                  to="/login"
+                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                >
+                  Login
+                </Link>
+              </p>
             </p>
           </div>
         </div>
