@@ -10,8 +10,8 @@ const user = {
 };
 
 const userNavigation = [
-  { name: "Sign out", href: "/login" },
   { name: "Change key", href: "/change-key" },
+  { name: "Sign out", href: "/login" },
 ];
 
 function classNames(...classes: any) {
@@ -22,19 +22,19 @@ export default function Example() {
   return (
     <>
       <div className="min-h-full">
-        <Disclosure as="nav" className="bg-gray-800">
+        <Disclosure as="nav" className="bg-indigo-50">
           {({ open }) => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
-                  <div className="flex items-center">
+                  <Link to="/" className="flex items-center">
                     <div className="flex-shrink-0">
-                      <KeyIcon className="h-7 w-7 text-indigo-400" />
+                      <KeyIcon className="h-7 w-7 text-indigo-600" />
                     </div>
-                    <p className="text-indigo-400 ms-2 font-semibold">
+                    <p className="text-indigo-600 ms-2 font-semibold">
                       Password Manager
                     </p>
-                  </div>
+                  </Link>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
                       {/* Profile dropdown */}
@@ -79,9 +79,9 @@ export default function Example() {
                       </Menu>
                     </div>
                   </div>
-                  <div className="-mr-2 flex md:hidden">
+                  <div className="flex md:hidden">
                     {/* Mobile menu button */}
-                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-indigo-600 p-2 text-white hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open main menu</span>
                       {open ? (
                         <XMarkIcon
@@ -110,10 +110,10 @@ export default function Example() {
                       />
                     </div>
                     <div className="ml-3">
-                      <div className="text-base font-medium leading-none text-white">
+                      <div className="text-base font-medium leading-none text-gray-800">
                         {user.name}
                       </div>
-                      <div className="text-sm font-medium leading-none mt-1 text-gray-400">
+                      <div className="text-sm font-medium leading-none mt-1 text-gray-600">
                         {user.email}
                       </div>
                     </div>
@@ -122,7 +122,7 @@ export default function Example() {
                     {userNavigation.map((item) => (
                       <Disclosure.Button
                         key={item.name}
-                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-700 hover:text-white"
                       >
                         <Link to={item.href}>{item.name}</Link>
                       </Disclosure.Button>

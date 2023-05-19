@@ -1,7 +1,36 @@
-import { Link } from "react-router-dom";
-import { KeyIcon } from "@heroicons/react/24/outline";
+import {
+  useActionData,
+  redirect,
+  Form,
+  Link,
+  ActionFunctionArgs,
+} from "react-router-dom";
+import { useState } from "react";
+import { KeyIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+
+import AuthRepository from "~~/repositories/login.api";
+import { LoginRequest } from "~~/entities/user.entity";
+
+export async function action({ request }: ActionFunctionArgs) {
+  try {
+    const formData = await request.formData();
+    const loginData = Object.fromEntries(formData) as unknown as LoginRequest;
+
+    const response = await AuthRepository.login(loginData);
+
+    if (response) {
+      localStorage.setItem("token", response.token);
+      return redirect("/");
+    }
+  } catch (err) {
+    return err;
+  }
+}
 
 export default function Login() {
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const err: any = useActionData();
+
   return (
     <>
       <div className="h-[100vh]">
@@ -14,40 +43,62 @@ export default function Login() {
           </div>
 
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" action="#" method="POST">
-              <div>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="Username"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-
-              <div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder="Key"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-
-              <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            <Form className="space-y-6" method="post">
+              {err && err.response._data ? (
+                <div
+                  className="bg-red-100 border border-red-400 text-red-700 mb-4 px-4 py-4 rounded relative"
+                  role="alert"
                 >
-                  Login
-                </button>
+                  <span className="block sm:inline">
+                    {err.response._data.message}
+                  </span>
+                </div>
+              ) : (
+                ""
+              )}
+
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                placeholder="Username"
+                required
+                className="block w-full rounded-md border-0 py-1.5 px-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+
+              <div className="mt-2">
+                <div className="flex justify-between rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                  <input
+                    id="key"
+                    name="key"
+                    type={passwordVisibility ? "text" : "password"}
+                    autoComplete="key"
+                    placeholder="Key"
+                    required
+                    className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  />
+                  <span
+                    className="flex select-none items-center cursor-pointer pr-3 text-gray-500 sm:text-sm"
+                    onClick={() => setPasswordVisibility(!passwordVisibility)}
+                  >
+                    {passwordVisibility ? (
+                      <EyeSlashIcon className="w-5 h-5" />
+                    ) : (
+                      <EyeIcon className="w-5 h-5" />
+                    )}
+                  </span>
+                </div>
               </div>
-            </form>
+
+              <button
+                type="submit"
+                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Login
+              </button>
+            </Form>
+
             <p className="mt-5 text-center text-sm text-gray-500">
               <Link
                 to="/register"
