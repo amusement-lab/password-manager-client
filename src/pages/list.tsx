@@ -4,9 +4,11 @@ import {
   EyeIcon,
   PlusCircleIcon,
   PencilSquareIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 
-import Modal from "../components/modal";
+import PasswordModal from "../components/passwordModal";
+import ConfirmationModal from "../components/confirmationModal";
 
 const passwords = [
   {
@@ -33,6 +35,7 @@ const passwords = [
 
 export default function List() {
   const [show, setShow] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   return (
     <>
@@ -87,15 +90,19 @@ export default function List() {
                   <button
                     onClick={() => setShow(true)}
                     type="submit"
-                    className="rounded-md p-2 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     <EyeIcon className="block h-5 w-5" />
                   </button>
+                  <button
+                    onClick={() => setShowConfirm(true)}
+                    type="submit"
+                    className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    <TrashIcon className="block h-5 w-5" />
+                  </button>
                   <Link to="/edit/1">
-                    <div
-                      onClick={() => setShow(true)}
-                      className="rounded-md p-2 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
+                    <div className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                       <PencilSquareIcon className="block h-5 w-5" />
                     </div>
                   </Link>
@@ -104,7 +111,11 @@ export default function List() {
             ))}
           </ul>
         </div>
-        <Modal show={show} closeModal={() => setShow(false)} />
+        <PasswordModal show={show} closeModal={() => setShow(false)} />
+        <ConfirmationModal
+          show={showConfirm}
+          closeModal={() => setShowConfirm(false)}
+        />
       </main>
     </>
   );

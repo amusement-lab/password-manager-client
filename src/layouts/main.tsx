@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, Navigate } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, KeyIcon } from "@heroicons/react/24/outline";
 
@@ -19,6 +19,10 @@ function classNames(...classes: any) {
 }
 
 export default function Example() {
+  // if (localStorage.getItem("token") === null) {
+  //   return <Navigate to="/login" replace />;
+  // }
+
   return (
     <>
       <div className="min-h-full">

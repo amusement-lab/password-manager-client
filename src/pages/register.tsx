@@ -1,7 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { KeyIcon } from "@heroicons/react/24/outline";
 
 export default function Register() {
+  // if (localStorage.getItem("token")) {
+  //   return <Navigate to="/" replace />;
+  // }
+
   return (
     <>
       <div className="h-[100vh]">
@@ -62,16 +66,11 @@ export default function Register() {
                 </button>
               </div>
             </form>
-            <p className="mt-5 text-center text-sm text-gray-500">
-              <p className="mt-5 text-center text-sm text-gray-500">
-                <Link
-                  to="/login"
-                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-                >
-                  Login
-                </Link>
+            <Link to="/login">
+              <p className="mt-5 text-center text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                Login
               </p>
-            </p>
+            </Link>
           </div>
         </div>
       </div>

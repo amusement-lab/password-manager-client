@@ -4,6 +4,7 @@ import {
   Form,
   Link,
   ActionFunctionArgs,
+  Navigate,
 } from "react-router-dom";
 import { useState } from "react";
 import { KeyIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
@@ -30,6 +31,10 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function Login() {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const err: any = useActionData();
+
+  // if (localStorage.getItem("token")) {
+  //   return <Navigate to="/" replace />;
+  // }
 
   return (
     <>
@@ -99,14 +104,11 @@ export default function Login() {
               </button>
             </Form>
 
-            <p className="mt-5 text-center text-sm text-gray-500">
-              <Link
-                to="/register"
-                className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-              >
+            <Link to="/register">
+              <p className="mt-5 text-center text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                 Register
-              </Link>
-            </p>
+              </p>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,19 +1,22 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
-export default function Alert({ openStatus = false }) {
-  const [open, setOpen] = useState(openStatus);
+interface AlertProps {
+  show: boolean;
+  closeModal: () => void;
+}
 
+export default function Alert({ show = false, closeModal }: AlertProps) {
   const cancelButtonRef = useRef(null);
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={show} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-10"
         initialFocus={cancelButtonRef}
-        onClose={setOpen}
+        onClose={closeModal}
       >
         <Transition.Child
           as={Fragment}
@@ -28,7 +31,7 @@ export default function Alert({ openStatus = false }) {
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full items-end justify-center p-4 pb-14 text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -52,13 +55,13 @@ export default function Alert({ openStatus = false }) {
                         as="h3"
                         className="text-base font-semibold leading-6 text-gray-900"
                       >
-                        Deactivate account
+                        Alert
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Are you sure you want to deactivate your account? All
-                          of your data will be permanently removed. This action
-                          cannot be undone.
+                          Are you sure you want to modify your data? All of your
+                          data will be permanently changed. This action cannot
+                          be undone.
                         </p>
                       </div>
                     </div>
@@ -68,14 +71,14 @@ export default function Alert({ openStatus = false }) {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                    onClick={() => setOpen(false)}
+                    onClick={closeModal}
                   >
-                    Deactivate
+                    Continue
                   </button>
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                    onClick={() => setOpen(false)}
+                    onClick={closeModal}
                     ref={cancelButtonRef}
                   >
                     Cancel
