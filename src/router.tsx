@@ -1,13 +1,14 @@
-import { createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 import MainLayout from "~~/layouts/main.tsx";
 
+import ChangeKey from "~~/pages/auth/changeKey.tsx";
+import Login, { action as loginAction } from "~~/pages/auth/login.tsx";
+import Register from "~~/pages/auth/register.tsx";
 import List from "~~/pages/list.tsx";
-import Add from "~~/pages/add.tsx";
-import Edit from "~~/pages/edit.tsx";
-import ChangeKey from "~~/pages/changeKey.tsx";
-import Login, { action as loginAction } from "~~/pages/login.tsx";
-import Register from "~~/pages/register.tsx";
+import AddType from "~~/pages/addType";
+import AddPassword from "~~/pages/passwords/addPassword";
+import EditPassword from "~~/pages/passwords/editPassword";
 
 const router = createBrowserRouter([
   {
@@ -19,16 +20,26 @@ const router = createBrowserRouter([
         element: <List />,
       },
       {
-        path: "/add",
-        element: <Add />,
-      },
-      {
-        path: "/edit/:id",
-        element: <Edit />,
+        path: "/add-type",
+        element: <AddType />,
       },
       {
         path: "/change-key",
         element: <ChangeKey />,
+      },
+    ],
+  },
+  {
+    path: "/password",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/password/add",
+        element: <AddPassword />,
+      },
+      {
+        path: "/password/edit/:id",
+        element: <EditPassword />,
       },
     ],
   },
