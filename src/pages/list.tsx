@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLoaderData } from "react-router-dom";
 import {
   EyeIcon,
   PlusCircleIcon,
@@ -9,6 +9,7 @@ import {
 
 import PasswordModal from "../components/passwordModal";
 import ConfirmationModal from "../components/confirmationModal";
+import { GetPasswords, OpenAPI, PasswordService } from "~~/api/generated";
 
 const passwords = [
   {
@@ -68,9 +69,19 @@ const passwords = [
   },
 ];
 
+export async function loader() {
+  OpenAPI.HEADERS = {
+    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsdTE1djI1ZzAwMDAxNGlyODEybHgyOWQiLCJ1c2VybmFtZSI6ImNyZXplbnRpYSIsImhhc2hlZEtleSI6IjE1ZTJiMGQzYzMzODkxZWJiMGYxZWY2MDllYzQxOTQyIiwiaWF0IjoxNzExOTcyNTY0fQ.HtQ2dWBNFlWKbr5YT1UMHHQNgaiVzh1aAyZOE2Ph7uw`,
+  };
+  const vault = await PasswordService.getPassword();
+  return { vault };
+}
+
 export default function List() {
   const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const { vault } = useLoaderData() as { vault: GetPasswords[] };
 
   return (
     <>
@@ -103,6 +114,7 @@ export default function List() {
                 Password
               </p>
               <ul role="list" className="divide-y divide-gray-100">
+                <p>{vault[0].title}</p>
                 {passwords.map((password) => (
                   <li
                     key={password.id}

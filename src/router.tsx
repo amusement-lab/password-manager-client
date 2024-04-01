@@ -5,7 +5,7 @@ import MainLayout from "~~/layouts/main.tsx";
 import ChangeKey from "~~/pages/auth/changeKey.tsx";
 import Login, { action as loginAction } from "~~/pages/auth/login.tsx";
 import Register from "~~/pages/auth/register.tsx";
-import List from "~~/pages/list.tsx";
+import List, { loader as vaultListLoader } from "~~/pages/list.tsx";
 import AddType from "~~/pages/addType";
 import AddPassword from "~~/pages/passwords/addPassword";
 import EditPassword from "~~/pages/passwords/editPassword";
@@ -18,6 +18,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <List />,
+        loader: vaultListLoader,
       },
       {
         path: "/add-type",
