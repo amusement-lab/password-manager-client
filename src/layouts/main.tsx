@@ -11,7 +11,13 @@ const user = {
 
 const userNavigation = [
   { name: "Change key", href: "/change-key" },
-  { name: "Sign out", href: "/login" },
+  {
+    name: "Sign out",
+    href: "/login",
+    onClick: () => {
+      localStorage.clear();
+    },
+  },
 ];
 
 function classNames(...classes: any) {
@@ -19,9 +25,9 @@ function classNames(...classes: any) {
 }
 
 export default function Example() {
-  // if (localStorage.getItem("token") === null) {
-  //   return <Navigate to="/login" replace />;
-  // }
+  if (localStorage.getItem("token") === null) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <>
@@ -72,6 +78,7 @@ export default function Example() {
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
+                                    onClick={item.onClick}
                                   >
                                     {item.name}
                                   </Link>

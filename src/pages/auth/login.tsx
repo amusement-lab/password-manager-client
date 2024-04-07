@@ -8,22 +8,21 @@ import {
 } from "react-router-dom";
 import { useState } from "react";
 import { KeyIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-
-import AuthRepository from "~~/repositories/login.api";
-import { LoginRequest } from "~~/entities/user.entity";
+import { LoginUser, UserService } from "~~/api/generated";
 
 export async function action({ request }: ActionFunctionArgs) {
   try {
     const formData = await request.formData();
-    const loginData = Object.fromEntries(formData) as unknown as LoginRequest;
+    const loginData = Object.fromEntries(formData) as unknown as LoginUser;
 
-    const response = await AuthRepository.login(loginData);
+    const response = await UserService.postLogin(loginData);
 
     if (response) {
       localStorage.setItem("token", response.token);
       return redirect("/");
     }
   } catch (err) {
+    console.log(err.body);
     return err;
   }
 }
@@ -32,9 +31,9 @@ export default function Login() {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const err: any = useActionData();
 
-  // if (localStorage.getItem("token")) {
-  //   return <Navigate to="/" replace />;
-  // }
+  if (localStorage.getItem("token")) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <>
@@ -49,7 +48,7 @@ export default function Login() {
 
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <Form className="space-y-6" method="post">
-              {err && err.response._data ? (
+              {/* {err && err.response._data ? (
                 <div
                   className="bg-red-100 border border-red-400 text-red-700 mb-4 px-4 py-4 rounded relative"
                   role="alert"
@@ -60,7 +59,7 @@ export default function Login() {
                 </div>
               ) : (
                 ""
-              )}
+              )} */}
 
               <input
                 id="username"
