@@ -11,77 +11,23 @@ import PasswordModal from "../components/passwordModal";
 import ConfirmationModal from "../components/confirmationModal";
 import { GetPasswords, OpenAPI, PasswordService } from "~~/api/generated";
 
-const passwords = [
-  {
-    id: 1,
-    title: "www.facebook.com",
-    username: "dipadana@gmail.com",
-  },
-  {
-    id: 2,
-    title: "mail.google.com",
-    username: "dipadana@gmail.com",
-  },
-  {
-    id: 3,
-    title: "www.twitter.com",
-    username: "dipadana@gmail.com",
-  },
-  {
-    id: 4,
-    title: "www.hoyoverse.com",
-    username: "dipadana@gmail.com",
-  },
-  {
-    id: 5,
-    title: "www.hoyoverse.com",
-    username: "dipadana@gmail.com",
-  },
-  {
-    id: 6,
-    title: "www.hoyoverse.com",
-    username: "dipadana@gmail.com",
-  },
-  {
-    id: 7,
-    title: "www.hoyoverse.com",
-    username: "dipadana@gmail.com",
-  },
-  {
-    id: 8,
-    title: "www.hoyoverse.com",
-    username: "dipadana@gmail.com",
-  },
-  {
-    id: 9,
-    title: "www.hoyoverse.com",
-    username: "dipadana@gmail.com",
-  },
-  {
-    id: 10,
-    title: "www.hoyoverse.com",
-    username: "dipadana@gmail.com",
-  },
-  {
-    id: 11,
-    title: "www.hoyoverse.com",
-    username: "dipadana@gmail.com",
-  },
-];
-
 export async function loader() {
   OpenAPI.HEADERS = {
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsdTE1djI1ZzAwMDAxNGlyODEybHgyOWQiLCJ1c2VybmFtZSI6ImNyZXplbnRpYSIsImhhc2hlZEtleSI6IjE1ZTJiMGQzYzMzODkxZWJiMGYxZWY2MDllYzQxOTQyIiwiaWF0IjoxNzExOTcyNTY0fQ.HtQ2dWBNFlWKbr5YT1UMHHQNgaiVzh1aAyZOE2Ph7uw`,
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
   };
-  const vault = await PasswordService.getPassword();
-  return { vault };
+  const passwords = await PasswordService.getPassword();
+  return { passwords };
 }
 
 export default function List() {
-  const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const { vault } = useLoaderData() as { vault: GetPasswords[] };
+  const { passwords } = useLoaderData() as { passwords: GetPasswords };
+
+  const [passwordId, setPasswordId] = useState("");
+  const openPasswordDetail = (id: string) => {
+    setPasswordId(id);
+  };
 
   return (
     <>
@@ -113,110 +59,76 @@ export default function List() {
               <p className="text-xl font-bold tracking-tight text-gray-900">
                 Password
               </p>
-              <ul role="list" className="divide-y divide-gray-100">
-                <p>{vault[0].title}</p>
-                {passwords.map((password) => (
-                  <li
-                    key={password.id}
-                    className="flex justify-between gap-x-6 py-5 px-2 border-2 border-gray-200 hover:bg-gray-100 rounded-md"
-                  >
-                    <div className="flex gap-x-4">
-                      <img
-                        className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                        src={`https://logo.clearbit.com/${password.title}`}
-                        alt=""
-                      />
-                      <div className="min-w-0 flex-auto">
-                        <p className="text-sm font-semibold leading-6 text-gray-900">
-                          {password.title}
-                        </p>
-                        <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                          {password.username}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <button
-                        onClick={() => setShow(true)}
-                        type="submit"
-                        className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      >
-                        <EyeIcon className="block h-5 w-5" />
-                      </button>
-                      <button
-                        onClick={() => setShowConfirm(true)}
-                        type="submit"
-                        className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      >
-                        <TrashIcon className="block h-5 w-5" />
-                      </button>
-                      <Link to="/password/edit/1">
-                        <div className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                          <PencilSquareIcon className="block h-5 w-5" />
+
+              {passwords.length === 0 ? (
+                <p className="mt-3 text-slate-400">
+                  There are currently no passwords stored in the vault
+                </p>
+              ) : (
+                <ul role="list" className="divide-y divide-gray-100">
+                  {passwords.map((password) => (
+                    <li
+                      key={password.id}
+                      className="flex justify-between gap-x-6 py-5 px-2 border-2 border-gray-200 hover:bg-gray-100 rounded-md"
+                    >
+                      <div className="flex gap-x-4">
+                        <img
+                          className="h-12 w-12 flex-none rounded-full bg-gray-50"
+                          src={`https://logo.clearbit.com/${password.url}`}
+                          alt=""
+                        />
+                        <div className="min-w-0 flex-auto">
+                          <p className="text-sm font-semibold leading-6 text-gray-900">
+                            {password.title}
+                          </p>
+                          <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                            {password.username}
+                          </p>
                         </div>
-                      </Link>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                      </div>
+                      <div className="flex items-center">
+                        <button
+                          onClick={() => openPasswordDetail(password.id)}
+                          type="submit"
+                          className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                          <EyeIcon className="block h-5 w-5" />
+                        </button>
+                        <button
+                          onClick={() => setShowConfirm(true)}
+                          type="submit"
+                          className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                          <TrashIcon className="block h-5 w-5" />
+                        </button>
+                        <Link to={`/password/edit/${password.id}`}>
+                          <div className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            <PencilSquareIcon className="block h-5 w-5" />
+                          </div>
+                        </Link>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             <div className="mt-7">
               <p className="text-xl font-bold tracking-tight text-gray-900">
-                Password
+                Card
               </p>
-              <ul role="list" className="divide-y divide-gray-100">
-                {passwords.map((password) => (
-                  <li
-                    key={password.id}
-                    className="flex justify-between gap-x-6 py-5 px-2 border-2 border-gray-200 hover:bg-gray-100 rounded-md"
-                  >
-                    <div className="flex gap-x-4">
-                      <img
-                        className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                        src={`https://logo.clearbit.com/${password.title}`}
-                        alt=""
-                      />
-                      <div className="min-w-0 flex-auto">
-                        <p className="text-sm font-semibold leading-6 text-gray-900">
-                          {password.title}
-                        </p>
-                        <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                          {password.username}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <button
-                        onClick={() => setShow(true)}
-                        type="submit"
-                        className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      >
-                        <EyeIcon className="block h-5 w-5" />
-                      </button>
-                      <button
-                        onClick={() => setShowConfirm(true)}
-                        type="submit"
-                        className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      >
-                        <TrashIcon className="block h-5 w-5" />
-                      </button>
-                      <Link to="/edit/1">
-                        <div className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                          <PencilSquareIcon className="block h-5 w-5" />
-                        </div>
-                      </Link>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <p className="mt-3 text-slate-400">Coming Soon</p>
             </div>
           </div>
         </div>
-        <PasswordModal show={show} closeModal={() => setShow(false)} />
+        <PasswordModal
+          show={!!passwordId}
+          id={passwordId}
+          closeModal={() => setPasswordId("")}
+        />
         <ConfirmationModal
           show={showConfirm}
-          closeModal={() => setShowConfirm(false)}
+          onClose={() => setShowConfirm(false)}
         />
       </main>
     </>

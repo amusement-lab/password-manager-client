@@ -1,14 +1,43 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { DocumentDuplicateIcon, EyeIcon } from "@heroicons/react/24/outline";
 
+import { OpenAPI, PasswordService } from "~~/api/generated";
+
 interface ModalProps {
   show: boolean;
+  id: string;
   closeModal: () => void;
 }
 
-export default function Modal({ show = false, closeModal }: ModalProps) {
+async function loader(id: string) {
+  OpenAPI.HEADERS = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  };
+  const password = await PasswordService.getPassword1(id);
+  return { password };
+}
+
+export default function Modal({ show = false, id, closeModal }: ModalProps) {
   const cancelButtonRef = useRef(null);
+
+  const [passwordDetailData, setPasswordDetailData] = useState<{
+    title: string;
+    username: string;
+    password: string;
+    url: string;
+  }>({
+    title: "title",
+    username: "username",
+    password: "password",
+    url: "www.url.com",
+  });
+
+  useEffect(() => {
+    if (id) {
+      loader(id).then((data) => setPasswordDetailData(data.password));
+    }
+  }, [id]);
 
   return (
     <Transition.Root show={show} as={Fragment}>
@@ -47,7 +76,7 @@ export default function Modal({ show = false, closeModal }: ModalProps) {
                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
                       <img
                         className="sm-h-12 sm-w-12 flex-none rounded-full bg-gray-50"
-                        src={`https://logo.clearbit.com/www.facebook.com`}
+                        src={`https://logo.clearbit.com/${passwordDetailData.url}`}
                         alt=""
                       />
                     </div>
@@ -56,7 +85,7 @@ export default function Modal({ show = false, closeModal }: ModalProps) {
                         as="h3"
                         className="text-base font-semibold leading-6 text-gray-900"
                       >
-                        www.facebook.com
+                        {passwordDetailData.title}
                       </Dialog.Title>
 
                       <div className="flex justify-between mt-5 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
@@ -64,6 +93,8 @@ export default function Modal({ show = false, closeModal }: ModalProps) {
                           type="text"
                           name="username"
                           id="username"
+                          value={passwordDetailData.username}
+                          readOnly={true}
                           className="border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         />
                         <span className="flex mr-3 select-none items-center text-gray-500 sm:text-sm">
@@ -76,6 +107,8 @@ export default function Modal({ show = false, closeModal }: ModalProps) {
                           type="text"
                           name="password"
                           id="password"
+                          value={passwordDetailData.password}
+                          readOnly={true}
                           className="border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         />
                         <span className="flex mr-3 select-none items-center text-gray-500 sm:text-sm">
