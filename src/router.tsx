@@ -7,7 +7,9 @@ import Login, { action as loginAction } from "~~/pages/auth/login.tsx";
 import Register from "~~/pages/auth/register.tsx";
 import List, { loader as vaultListLoader } from "~~/pages/list.tsx";
 import AddType from "~~/pages/addType";
-import AddPassword from "~~/pages/passwords/addPassword";
+import AddPassword, {
+  action as addPasswordAction,
+} from "~~/pages/passwords/addPassword";
 import EditPassword from "~~/pages/passwords/editPassword";
 
 const router = createBrowserRouter([
@@ -37,6 +39,7 @@ const router = createBrowserRouter([
       {
         path: "/password/add",
         element: <AddPassword />,
+        action: addPasswordAction,
       },
       {
         path: "/password/edit/:id",

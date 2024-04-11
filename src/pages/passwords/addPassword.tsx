@@ -1,5 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, redirect, Form, ActionFunctionArgs } from "react-router-dom";
 import { EyeIcon } from "@heroicons/react/24/outline";
+import { PasswordService, OpenAPI, UpsertPassword } from "~~/api/generated";
+
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const passwordData = Object.fromEntries(formData) as UpsertPassword;
+  OpenAPI.HEADERS = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  };
+  await PasswordService.postPassword(passwordData);
+  return redirect("/");
+}
 
 export default function Add() {
   return (
@@ -13,7 +24,7 @@ export default function Add() {
       </header>
       <main>
         <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8 mb-2">
-          <form>
+          <Form method="post">
             <div className="space-y-12">
               <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-full">
@@ -110,7 +121,7 @@ export default function Add() {
                 Save
               </button>
             </div>
-          </form>
+          </Form>
         </div>
       </main>
     </>
