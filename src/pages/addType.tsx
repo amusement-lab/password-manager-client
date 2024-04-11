@@ -1,8 +1,9 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import PasswordModal from "../components/passwordModal";
-import ConfirmationModal from "../components/confirmationModal";
+import keySvg from "../assets/key.svg";
+import cardSvg from "../assets/card.svg";
+import docSvg from "../assets/doc.svg";
+import noteSvg from "../assets/note.svg";
 
 const newItemList = [
   {
@@ -10,43 +11,36 @@ const newItemList = [
     name: "Password",
     pageLink: "/password/add",
     comingSoon: false,
-    desc: "asdadsadsadasd",
-    imageUrl:
-      "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/keys.png",
+    desc: "Save for your account and credential data",
+    imageUrl: keySvg,
   },
   {
     id: 2,
-    name: "Password",
-    pageLink: "/password/add",
+    name: "Card",
+    pageLink: "#",
     comingSoon: true,
-    desc: "asdadsadsadasd",
-    imageUrl:
-      "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/keys.png",
+    desc: "Coming soon",
+    imageUrl: cardSvg,
   },
   {
     id: 3,
-    name: "Password",
-    pageLink: "/password/add",
+    name: "Document",
+    pageLink: "#",
     comingSoon: true,
-    desc: "asdadsadsadasd",
-    imageUrl:
-      "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/keys.png",
+    desc: "Coming soon",
+    imageUrl: docSvg,
   },
   {
     id: 4,
-    name: "Password",
-    pageLink: "/password/add",
+    name: "Other Note",
+    pageLink: "#",
     comingSoon: true,
-    desc: "asdadsadsadasd",
-    imageUrl:
-      "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/keys.png",
+    desc: "Coming soon",
+    imageUrl: noteSvg,
   },
 ];
 
 export default function AddType() {
-  const [show, setShow] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-
   return (
     <>
       <header className="bg-white shadow">
@@ -66,7 +60,7 @@ export default function AddType() {
                   >
                     <div className="flex gap-x-4">
                       <img
-                        className="h-12 w-12 flex-none rounded-full bg-gray-50"
+                        className="h-12 w-12 p-1 flex-none rounded-full bg-gray-100"
                         src={newItem.imageUrl}
                         alt=""
                       />
@@ -85,11 +79,6 @@ export default function AddType() {
             </ul>
           </div>
         </div>
-        <PasswordModal show={show} closeModal={() => setShow(false)} />
-        <ConfirmationModal
-          show={showConfirm}
-          closeModal={() => setShowConfirm(false)}
-        />
       </main>
     </>
   );
