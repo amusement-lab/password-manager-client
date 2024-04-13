@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import { SyntheticEvent, useState } from "react";
+import { Link, useLoaderData, useRevalidator } from "react-router-dom";
 import {
   EyeIcon,
   PlusCircleIcon,
@@ -7,9 +7,10 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 
-import PasswordModal from "../components/passwordModal";
-import ConfirmationModal from "../components/confirmationModal";
+import PasswordModal from "~~/components/passwordModal";
+import ConfirmationModal from "~~/components/confirmationModal";
 import { GetPasswords, OpenAPI, PasswordService } from "~~/api/generated";
+import keySvg from "~~/assets/key.svg";
 
 export async function loader() {
   OpenAPI.HEADERS = {
@@ -20,13 +21,39 @@ export async function loader() {
 }
 
 export default function List() {
-  const [showConfirm, setShowConfirm] = useState(false);
-
   const { passwords } = useLoaderData() as { passwords: GetPasswords };
 
   const [passwordId, setPasswordId] = useState("");
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showDetailPassword, setShowDetailPassword] = useState(false);
+
   const openPasswordDetail = (id: string) => {
     setPasswordId(id);
+    setShowDetailPassword(true);
+  };
+
+  const openDeletePassword = (id: string) => {
+    setPasswordId(id);
+    setShowConfirmationModal(true);
+  };
+
+  const revalidator = useRevalidator();
+  const onDeletePassword = async (id: string) => {
+    OpenAPI.HEADERS = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    };
+    await PasswordService.deletePassword(id);
+    setShowConfirmationModal(false);
+    revalidator.revalidate();
+  };
+
+  const onErrorImage = (
+    e: SyntheticEvent<HTMLImageElement, Event>,
+    imageUrl: string
+  ) => {
+    // https://www.designcise.com/web/tutorial/how-to-fix-property-does-not-exist-on-type-eventtarget-typescript-error
+    // https://www.designcise.com/web/tutorial/how-to-fix-property-src-does-not-exist-on-type-eventtarget-typescript-error
+    (e.target as HTMLImageElement).src = imageUrl;
   };
 
   return (
@@ -76,6 +103,7 @@ export default function List() {
                           className="h-12 w-12 flex-none rounded-full bg-gray-50"
                           src={`https://logo.clearbit.com/${password.url}`}
                           alt=""
+                          onError={(e) => onErrorImage(e, keySvg)}
                         />
                         <div className="min-w-0 flex-auto">
                           <p className="text-sm font-semibold leading-6 text-gray-900">
@@ -95,7 +123,7 @@ export default function List() {
                           <EyeIcon className="block h-5 w-5" />
                         </button>
                         <button
-                          onClick={() => setShowConfirm(true)}
+                          onClick={() => openDeletePassword(password.id)}
                           type="submit"
                           className="rounded-md p-1 text-gray-500  hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
@@ -122,13 +150,14 @@ export default function List() {
           </div>
         </div>
         <PasswordModal
-          show={!!passwordId}
+          show={showDetailPassword}
           id={passwordId}
-          closeModal={() => setPasswordId("")}
+          closeModal={() => setShowDetailPassword(false)}
         />
         <ConfirmationModal
-          show={showConfirm}
-          onClose={() => setShowConfirm(false)}
+          show={showConfirmationModal}
+          onOk={() => onDeletePassword(passwordId)}
+          onClose={() => setShowConfirmationModal(false)}
         />
       </main>
     </>

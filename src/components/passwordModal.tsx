@@ -21,19 +21,22 @@ async function loader(id: string) {
 export default function Modal({ show = false, id, closeModal }: ModalProps) {
   const cancelButtonRef = useRef(null);
 
+  const initPasswordDetailData = {
+    title: "",
+    username: "",
+    password: "",
+    url: "",
+  };
+
   const [passwordDetailData, setPasswordDetailData] = useState<{
     title: string;
     username: string;
     password: string;
     url: string;
-  }>({
-    title: "title",
-    username: "username",
-    password: "password",
-    url: "www.url.com",
-  });
+  }>(initPasswordDetailData);
 
   useEffect(() => {
+    setPasswordDetailData(initPasswordDetailData);
     if (id) {
       loader(id).then((data) => setPasswordDetailData(data.password));
     }

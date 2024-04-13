@@ -53,11 +53,12 @@ export default function AddType() {
           <div className="px-4 sm:px-6 lg:px-8 mb-2">
             <ul role="list" className="flex flex-wrap divide-y divide-gray-100">
               {newItemList.map((newItem) => (
-                <Link className="flex-initial w-1/2" to={newItem.pageLink}>
-                  <li
-                    key={newItem.id}
-                    className="py-5 px-2 border-2 border-gray-200 hover:bg-gray-100 rounded-md"
-                  >
+                <Link
+                  key={newItem.id}
+                  className="flex-initial w-1/2"
+                  to={newItem.pageLink}
+                >
+                  <li className="py-5 px-2 border-2 border-gray-200 hover:bg-gray-100 rounded-md">
                     <div className="flex gap-x-4">
                       <img
                         className="h-12 w-12 p-1 flex-none rounded-full bg-gray-100"
