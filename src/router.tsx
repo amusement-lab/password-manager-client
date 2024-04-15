@@ -10,7 +10,10 @@ import AddType from "~~/pages/addType";
 import AddPassword, {
   action as addPasswordAction,
 } from "~~/pages/passwords/addPassword";
-import EditPassword from "~~/pages/passwords/editPassword";
+import EditPassword, {
+  loader as editPasswordLoader,
+  action as editPasswordAction,
+} from "~~/pages/passwords/editPassword";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +47,8 @@ const router = createBrowserRouter([
       {
         path: "/password/edit/:id",
         element: <EditPassword />,
+        loader: editPasswordLoader,
+        action: editPasswordAction,
       },
     ],
   },

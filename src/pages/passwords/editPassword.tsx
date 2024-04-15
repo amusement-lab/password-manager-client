@@ -1,7 +1,47 @@
-import { Link } from "react-router-dom";
+import {
+  ActionFunctionArgs,
+  Link,
+  useLoaderData,
+  Form,
+  redirect,
+} from "react-router-dom";
 import { EyeIcon } from "@heroicons/react/24/outline";
+import {
+  OpenAPI,
+  Password,
+  PasswordService,
+  UpsertPassword,
+} from "~~/api/generated";
+
+export async function loader({ params }: ActionFunctionArgs) {
+  const id = params.id;
+  if (id) {
+    OpenAPI.HEADERS = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    };
+    const passwordDetail = await PasswordService.getPassword1(id);
+    return { passwordDetail };
+  }
+  return null;
+}
+
+export async function action({ request, params }: ActionFunctionArgs) {
+  OpenAPI.HEADERS = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  };
+  const id = params.id;
+  if (id) {
+    const formData = await request.formData();
+    const passwordData = Object.fromEntries(formData) as UpsertPassword;
+    await PasswordService.putPassword(id, passwordData);
+    return redirect("/");
+  }
+}
 
 export default function Edit() {
+  const { passwordDetail } = useLoaderData() as {
+    passwordDetail: Password;
+  };
   return (
     <>
       <header className="bg-white shadow">
@@ -13,33 +53,53 @@ export default function Edit() {
       </header>
       <main>
         <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8 mb-2">
-          <form>
+          <Form method="post">
             <div className="space-y-12">
               <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <div className="sm:col-span-3">
+                <div className="sm:col-span-full">
                   <label
                     htmlFor="title"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Website Title
+                    Title
                   </label>
                   <div className="mt-2">
                     <input
                       type="text"
                       name="title"
                       id="title"
-                      placeholder="www.website.com"
+                      placeholder="My Website"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      defaultValue={passwordDetail.title}
                     />
                   </div>
                 </div>
 
-                <div className="sm:col-span-3">
+                <div className="sm:col-span-full">
+                  <label
+                    htmlFor="title"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Website URL
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="url"
+                      id="url"
+                      placeholder="www.website.com"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      defaultValue={passwordDetail.url}
+                    />
+                  </div>
+                </div>
+
+                <div className="sm:col-span-full">
                   <label
                     htmlFor="username"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Username
+                    Username/Email
                   </label>
                   <div className="mt-2">
                     <input
@@ -48,6 +108,7 @@ export default function Edit() {
                       id="username"
                       placeholder="myemail@gmail.com"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      defaultValue={passwordDetail.username}
                     />
                   </div>
                 </div>
@@ -66,6 +127,7 @@ export default function Edit() {
                         name="password"
                         id="password"
                         className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                        defaultValue={passwordDetail.password}
                       />
                       <span className="flex select-none items-center pr-3 text-gray-500 sm:text-sm">
                         <EyeIcon className="w-5 h-5" />
@@ -92,7 +154,7 @@ export default function Edit() {
                 Save
               </button>
             </div>
-          </form>
+          </Form>
         </div>
       </main>
     </>
