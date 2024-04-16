@@ -100,9 +100,9 @@ export default function List() {
                     >
                       <div className="flex gap-x-4">
                         <img
-                          className="h-12 w-12 flex-none rounded-full bg-gray-50"
+                          className="h-12 w-12 p-1 flex-none rounded-full border-solid border-[0.5px] border-gray-200"
                           src={`https://logo.clearbit.com/${password.url}`}
-                          alt=""
+                          alt="image url logo"
                           onError={(e) => onErrorImage(e, keySvg)}
                         />
                         <div className="min-w-0 flex-auto">

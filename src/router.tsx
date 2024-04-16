@@ -2,7 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 
 import MainLayout from "~~/layouts/main.tsx";
 
-import ChangeKey from "~~/pages/auth/changeKey.tsx";
+import ChangeKey, {
+  action as changeKeyAction,
+} from "~~/pages/auth/changeKey.tsx";
 import Login, { action as loginAction } from "~~/pages/auth/login.tsx";
 import Register from "~~/pages/auth/register.tsx";
 import List, { loader as vaultListLoader } from "~~/pages/list.tsx";
@@ -32,6 +34,7 @@ const router = createBrowserRouter([
       {
         path: "/change-key",
         element: <ChangeKey />,
+        action: changeKeyAction,
       },
     ],
   },

@@ -1,5 +1,19 @@
-import { Link } from "react-router-dom";
+import { ActionFunctionArgs, Form, Link, redirect } from "react-router-dom";
 import { EyeIcon } from "@heroicons/react/24/outline";
+import { type ChangeKey, UserService, OpenAPI } from "~~/api/generated";
+
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const keyData = Object.fromEntries(formData) as ChangeKey;
+  OpenAPI.HEADERS = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  };
+  await UserService.postChangeKey({
+    rawOldKey: keyData.rawOldKey,
+    rawNewKey: keyData.rawNewKey,
+  });
+  return redirect("/");
+}
 
 export default function ChangeKey() {
   return (
@@ -13,7 +27,7 @@ export default function ChangeKey() {
       </header>
       <main>
         <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8 mb-2">
-          <form>
+          <Form method="post">
             <div className="space-y-12">
               <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="col-span-full">
@@ -27,8 +41,8 @@ export default function ChangeKey() {
                     <div className="flex justify-between rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                       <input
                         type="text"
-                        name="old-key"
-                        id="old-key"
+                        name="rawOldKey"
+                        id="rawOldKey"
                         className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                       <span className="flex select-none items-center pr-3 text-gray-500 sm:text-sm">
@@ -49,8 +63,8 @@ export default function ChangeKey() {
                     <div className="flex justify-between rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                       <input
                         type="text"
-                        name="new-key"
-                        id="new-key"
+                        name="rawNewKey"
+                        id="rawNewKey"
                         className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                       <span className="flex select-none items-center pr-3 text-gray-500 sm:text-sm">
@@ -71,8 +85,8 @@ export default function ChangeKey() {
                     <div className="flex justify-between rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                       <input
                         type="text"
-                        name="confirm-new-key"
-                        id="confirm-new-key"
+                        name="rawNewConfirmKey"
+                        id="rawNewConfirmKey"
                         className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                       <span className="flex select-none items-center pr-3 text-gray-500 sm:text-sm">
@@ -100,7 +114,7 @@ export default function ChangeKey() {
                 Save
               </button>
             </div>
-          </form>
+          </Form>
         </div>
       </main>
     </>
