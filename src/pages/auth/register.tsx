@@ -1,10 +1,41 @@
-import { Link, Navigate } from "react-router-dom";
-import { KeyIcon } from "@heroicons/react/24/outline";
+import {
+  ActionFunctionArgs,
+  Form,
+  Link,
+  Navigate,
+  redirect,
+} from "react-router-dom";
+import { useState } from "react";
+import { KeyIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+
+import { User, UserService } from "~~/api/generated";
+
+export async function action({ request }: ActionFunctionArgs) {
+  try {
+    const formData = await request.formData();
+    const registerData = Object.fromEntries(formData) as User;
+
+    const response = await UserService.postRegister({
+      name: registerData.name,
+      username: registerData.username,
+      key: registerData.key,
+    });
+
+    if (response) {
+      return redirect("/login");
+    }
+  } catch (err) {
+    console.log(err.body);
+    return err;
+  }
+}
 
 export default function Register() {
-  // if (localStorage.getItem("token")) {
-  //   return <Navigate to="/" replace />;
-  // }
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
+
+  if (localStorage.getItem("token")) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <>
@@ -18,13 +49,12 @@ export default function Register() {
           </div>
 
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" action="#" method="POST">
+            <Form className="space-y-6" method="post">
               <div>
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+                  id="name"
+                  name="name"
+                  type="text"
                   placeholder="Name"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -33,42 +63,59 @@ export default function Register() {
 
               <div>
                 <input
-                  id="email"
-                  name="email"
+                  id="username"
+                  name="username"
                   type="email"
-                  autoComplete="email"
-                  placeholder="Username"
+                  placeholder="Email"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
 
-              <div>
-                <div className="flex items-center justify-between"></div>
-
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder="Key"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+              <div className="mt-2">
+                <div className="flex justify-between rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                  <input
+                    id="key"
+                    name="key"
+                    type={passwordVisibility ? "text" : "password"}
+                    placeholder="Key"
+                    required
+                    className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  />
+                  <span
+                    className="flex select-none items-center cursor-pointer pr-3 text-gray-500 sm:text-sm"
+                    onClick={() => setPasswordVisibility(!passwordVisibility)}
+                  >
+                    {passwordVisibility ? (
+                      <EyeSlashIcon className="w-5 h-5" />
+                    ) : (
+                      <EyeIcon className="w-5 h-5" />
+                    )}
+                  </span>
+                </div>
               </div>
 
-              <div>
-                <div className="flex items-center justify-between"></div>
-
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder="Confirm Key"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+              <div className="mt-2">
+                <div className="flex justify-between rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                  <input
+                    id="confirmKey"
+                    name="confirmKey"
+                    type={passwordVisibility ? "text" : "password"}
+                    placeholder="Confirm Key"
+                    required
+                    className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  />
+                  <span
+                    className="flex select-none items-center cursor-pointer pr-3 text-gray-500 sm:text-sm"
+                    onClick={() => setPasswordVisibility(!passwordVisibility)}
+                  >
+                    {passwordVisibility ? (
+                      <EyeSlashIcon className="w-5 h-5" />
+                    ) : (
+                      <EyeIcon className="w-5 h-5" />
+                    )}
+                  </span>
+                </div>
               </div>
 
               <div>
@@ -79,7 +126,7 @@ export default function Register() {
                   Register
                 </button>
               </div>
-            </form>
+            </Form>
             <Link to="/login">
               <p className="mt-5 text-center text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                 Login

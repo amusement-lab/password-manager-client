@@ -6,10 +6,10 @@ import router from "./router";
 import "./index.css";
 import { OpenAPI } from "./api/generated";
 
-// Config the header request
-OpenAPI.HEADERS = {
-  Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsdTE1djI1ZzAwMDAxNGlyODEybHgyOWQiLCJ1c2VybmFtZSI6ImNyZXplbnRpYSIsImhhc2hlZEtleSI6IjE1ZTJiMGQzYzMzODkxZWJiMGYxZWY2MDllYzQxOTQyIiwiaWF0IjoxNzExOTcyNTY0fQ.HtQ2dWBNFlWKbr5YT1UMHHQNgaiVzh1aAyZOE2Ph7uw`,
-};
+// TODO: Add Config the header request here, currently we need setup the authentication in header manually
+// OpenAPI.HEADERS = {
+//   Authorization: ``,
+// };
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

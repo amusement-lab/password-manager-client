@@ -20,6 +20,7 @@ async function loader(id: string) {
 
 export default function Modal({ show = false, id, closeModal }: ModalProps) {
   const cancelButtonRef = useRef(null);
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
 
   const initPasswordDetailData = {
     title: "",
@@ -107,7 +108,7 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
 
                       <div className="flex justify-between mt-2 mb-1 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                         <input
-                          type="text"
+                          type={passwordVisibility ? "text" : "password"}
                           name="password"
                           id="password"
                           value={passwordDetailData.password}
@@ -115,7 +116,12 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
                           className="border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         />
                         <span className="flex mr-3 select-none items-center text-gray-500 sm:text-sm">
-                          <EyeIcon className="w-5 h-5 mr-2" />
+                          <EyeIcon
+                            className="w-5 h-5 mr-2"
+                            onClick={() =>
+                              setPasswordVisibility(!passwordVisibility)
+                            }
+                          />
                           <DocumentDuplicateIcon className="w-5 h-5" />
                         </span>
                       </div>

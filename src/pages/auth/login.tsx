@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { useState } from "react";
 import { KeyIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+
 import { LoginUser, UserService } from "~~/api/generated";
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -77,7 +78,6 @@ export default function Login() {
                     id="key"
                     name="key"
                     type={passwordVisibility ? "text" : "password"}
-                    autoComplete="key"
                     placeholder="Key"
                     required
                     className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"

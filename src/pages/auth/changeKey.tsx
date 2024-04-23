@@ -1,6 +1,7 @@
 import { ActionFunctionArgs, Form, Link, redirect } from "react-router-dom";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { type ChangeKey, UserService, OpenAPI } from "~~/api/generated";
+import { useState } from "react";
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
@@ -12,10 +13,13 @@ export async function action({ request }: ActionFunctionArgs) {
     rawOldKey: keyData.rawOldKey,
     rawNewKey: keyData.rawNewKey,
   });
-  return redirect("/");
+  localStorage.clear();
+  return redirect("/login");
 }
 
 export default function ChangeKey() {
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
+
   return (
     <>
       <header className="bg-white shadow">
@@ -40,12 +44,17 @@ export default function ChangeKey() {
                   <div className="mt-2">
                     <div className="flex justify-between rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                       <input
-                        type="text"
+                        type={passwordVisibility ? "text" : "password"}
                         name="rawOldKey"
                         id="rawOldKey"
                         className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
-                      <span className="flex select-none items-center pr-3 text-gray-500 sm:text-sm">
+                      <span
+                        className="flex select-none items-center pr-3 text-gray-500 sm:text-sm"
+                        onClick={() =>
+                          setPasswordVisibility(!passwordVisibility)
+                        }
+                      >
                         <EyeIcon className="w-5 h-5" />
                       </span>
                     </div>
@@ -62,12 +71,17 @@ export default function ChangeKey() {
                   <div className="mt-2">
                     <div className="flex justify-between rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                       <input
-                        type="text"
+                        type={passwordVisibility ? "text" : "password"}
                         name="rawNewKey"
                         id="rawNewKey"
                         className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
-                      <span className="flex select-none items-center pr-3 text-gray-500 sm:text-sm">
+                      <span
+                        className="flex select-none items-center pr-3 text-gray-500 sm:text-sm"
+                        onClick={() =>
+                          setPasswordVisibility(!passwordVisibility)
+                        }
+                      >
                         <EyeIcon className="w-5 h-5" />
                       </span>
                     </div>
@@ -84,12 +98,17 @@ export default function ChangeKey() {
                   <div className="mt-2">
                     <div className="flex justify-between rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                       <input
-                        type="text"
+                        type={passwordVisibility ? "text" : "password"}
                         name="rawNewConfirmKey"
                         id="rawNewConfirmKey"
                         className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
-                      <span className="flex select-none items-center pr-3 text-gray-500 sm:text-sm">
+                      <span
+                        className="flex select-none items-center pr-3 text-gray-500 sm:text-sm"
+                        onClick={() =>
+                          setPasswordVisibility(!passwordVisibility)
+                        }
+                      >
                         <EyeIcon className="w-5 h-5" />
                       </span>
                     </div>

@@ -5,7 +5,9 @@ import {
   Form,
   redirect,
 } from "react-router-dom";
-import { EyeIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
+
 import {
   OpenAPI,
   Password,
@@ -39,9 +41,12 @@ export async function action({ request, params }: ActionFunctionArgs) {
 }
 
 export default function Edit() {
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
+
   const { passwordDetail } = useLoaderData() as {
     passwordDetail: Password;
   };
+
   return (
     <>
       <header className="bg-white shadow">
@@ -123,14 +128,24 @@ export default function Edit() {
                   <div className="mt-2">
                     <div className="flex justify-between rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                       <input
-                        type="text"
-                        name="password"
-                        id="password"
+                        id="confirmKey"
+                        name="confirmKey"
+                        type={passwordVisibility ? "text" : "password"}
+                        placeholder="Confirm Key"
+                        required
                         className="border-0 bg-transparent w-full py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        defaultValue={passwordDetail.password}
                       />
-                      <span className="flex select-none items-center pr-3 text-gray-500 sm:text-sm">
-                        <EyeIcon className="w-5 h-5" />
+                      <span
+                        className="flex select-none items-center cursor-pointer pr-3 text-gray-500 sm:text-sm"
+                        onClick={() =>
+                          setPasswordVisibility(!passwordVisibility)
+                        }
+                      >
+                        {passwordVisibility ? (
+                          <EyeSlashIcon className="w-5 h-5" />
+                        ) : (
+                          <EyeIcon className="w-5 h-5" />
+                        )}
                       </span>
                     </div>
                   </div>
