@@ -1,13 +1,21 @@
-import { createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 import MainLayout from "~~/layouts/main.tsx";
 
-import List from "~~/pages/list.tsx";
-import Add from "~~/pages/add.tsx";
-import Edit from "~~/pages/edit.tsx";
-import ChangeKey from "~~/pages/changeKey.tsx";
-import Login, { action as loginAction } from "~~/pages/login.tsx";
-import Register from "~~/pages/register.tsx";
+import ChangeKey, {
+  action as changeKeyAction,
+} from "~~/pages/auth/changeKey.tsx";
+import Login, { action as loginAction } from "~~/pages/auth/login.tsx";
+import Register from "~~/pages/auth/register.tsx";
+import List, { loader as vaultListLoader } from "~~/pages/list.tsx";
+import AddType from "~~/pages/addType";
+import AddPassword, {
+  action as addPasswordAction,
+} from "~~/pages/passwords/addPassword";
+import EditPassword, {
+  loader as editPasswordLoader,
+  action as editPasswordAction,
+} from "~~/pages/passwords/editPassword";
 
 const router = createBrowserRouter([
   {
@@ -17,18 +25,33 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <List />,
+        loader: vaultListLoader,
       },
       {
-        path: "/add",
-        element: <Add />,
-      },
-      {
-        path: "/edit/:id",
-        element: <Edit />,
+        path: "/add-type",
+        element: <AddType />,
       },
       {
         path: "/change-key",
         element: <ChangeKey />,
+        action: changeKeyAction,
+      },
+    ],
+  },
+  {
+    path: "/password",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/password/add",
+        element: <AddPassword />,
+        action: addPasswordAction,
+      },
+      {
+        path: "/password/edit/:id",
+        element: <EditPassword />,
+        loader: editPasswordLoader,
+        action: editPasswordAction,
       },
     ],
   },
