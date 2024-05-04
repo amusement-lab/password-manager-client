@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { useState } from "react";
 import { KeyIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import Swal from "sweetalert2";
 
 import { LoginUser, UserService } from "~~/api/generated";
 
@@ -24,7 +25,12 @@ export async function action({ request }: ActionFunctionArgs) {
     }
   } catch (err) {
     console.log(err.body);
-    return err;
+
+    return Swal.fire({
+      title: "Error Login",
+      text: err.body.message,
+      confirmButtonText: "Ok",
+    });
   }
 }
 
