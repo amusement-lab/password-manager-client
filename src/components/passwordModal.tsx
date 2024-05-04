@@ -41,11 +41,17 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
   }>(initPasswordDetailData);
 
   useEffect(() => {
+    // If new password data loaded, clear the field before show new password detail
     setPasswordDetailData(initPasswordDetailData);
     if (id) {
       loader(id).then((data) => setPasswordDetailData(data.password));
     }
   }, [id]);
+
+  useEffect(() => {
+    // If modal closed, hide password visibility
+    setPasswordVisibility(false);
+  }, [show]);
 
   return (
     <Transition.Root show={show} as={Fragment}>

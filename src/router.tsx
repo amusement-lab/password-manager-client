@@ -6,7 +6,7 @@ import ChangeKey, {
   action as changeKeyAction,
 } from "~~/pages/auth/changeKey.tsx";
 import Login, { action as loginAction } from "~~/pages/auth/login.tsx";
-import Register from "~~/pages/auth/register.tsx";
+import Register, { action as registerAction } from "~~/pages/auth/register.tsx";
 import List, { loader as vaultListLoader } from "~~/pages/list.tsx";
 import AddType from "~~/pages/addType";
 import AddPassword, {
@@ -62,6 +62,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
+    action: registerAction,
     element: <Register />,
   },
 ]);
