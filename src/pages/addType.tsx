@@ -61,7 +61,7 @@ export default function AddType() {
                   <li className="py-5 px-2 border-2 border-gray-200 hover:bg-gray-100 rounded-md">
                     <div className="flex gap-x-4">
                       <img
-                        className="h-12 w-12 p-1 flex-none rounded-full bg-gray-100"
+                        className="h-12 w-12 p-2 flex-none rounded-full bg-indigo-600"
                         src={newItem.imageUrl}
                         alt=""
                       />

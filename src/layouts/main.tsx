@@ -3,10 +3,12 @@ import { Outlet, Link, Navigate } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, KeyIcon } from "@heroicons/react/24/outline";
 
+import userSvg from "~~/assets/user.svg";
+
 const user = {
   name: "Dipadana",
   email: "dipadana@gmail.com",
-  imageUrl: "https://pbs.twimg.com/media/E2w_d6FVkAgXcCd.jpg:small",
+  imageUrl: userSvg,
 };
 
 const userNavigation = [
@@ -53,7 +55,7 @@ export default function Example() {
                           <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
                             <img
-                              className="h-9 w-9 rounded-full"
+                              className="h-9 w-9 p-2 bg-indigo-600 rounded-full"
                               src={user.imageUrl}
                               alt=""
                             />
