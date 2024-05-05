@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import MainLayout from "~~/layouts/main.tsx";
+import MainLayout, { loader as mainLayoutLoader } from "~~/layouts/main.tsx";
 
 import ChangeKey, {
   action as changeKeyAction,
@@ -17,9 +17,13 @@ import EditPassword, {
   action as editPasswordAction,
 } from "~~/pages/passwords/editPassword";
 
+// Function to check if the user is authenticated
+// const isAuthenticated = () => {
+//   return !!localStorage.getItem("token");
+// };
+
 const router = createBrowserRouter([
   {
-    path: "/",
     element: <MainLayout />,
     children: [
       {

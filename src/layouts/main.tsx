@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Outlet, Link, Navigate } from "react-router-dom";
+import { Outlet, Link, Navigate, useNavigate } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, KeyIcon } from "@heroicons/react/24/outline";
 
@@ -26,9 +26,23 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+// export function loader() {
+//   console.log(localStorage.getItem("token"));
+// const navigate = useNavigate();
+// if (localStorage.getItem("token") === null) {
+//   console.log("masuk");
+
+//   navigate("/login");
+//   return false;
+// }
+// return true;
+// }
+
+export default function MainLayout() {
+  const navigate = useNavigate();
   if (localStorage.getItem("token") === null) {
-    return <Navigate to="/login" replace />;
+    console.log("masuk");
+    navigate("/login");
   }
 
   return (

@@ -1,5 +1,10 @@
 import { SyntheticEvent, useState } from "react";
-import { Link, useLoaderData, useRevalidator } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useLoaderData,
+  useRevalidator,
+} from "react-router-dom";
 import {
   EyeIcon,
   PlusCircleIcon,
