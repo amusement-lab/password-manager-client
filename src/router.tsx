@@ -17,14 +17,10 @@ import EditPassword, {
   action as editPasswordAction,
 } from "~~/pages/passwords/editPassword";
 
-// Function to check if the user is authenticated
-// const isAuthenticated = () => {
-//   return !!localStorage.getItem("token");
-// };
-
 const router = createBrowserRouter([
   {
     element: <MainLayout />,
+    loader: mainLayoutLoader,
     children: [
       {
         path: "/",

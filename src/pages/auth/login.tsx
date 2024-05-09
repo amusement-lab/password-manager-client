@@ -23,7 +23,7 @@ export async function action({ request }: ActionFunctionArgs) {
       localStorage.setItem("token", response.token);
       return redirect("/");
     }
-  } catch (err) {
+  } catch (err: any) {
     console.log(err.body);
 
     return Swal.fire({
