@@ -123,8 +123,9 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
                           id="password"
                           value={passwordDetailData.password}
                           readOnly={true}
-                          className="border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                          className="w-full border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         />
+
                         <span className="flex mr-3 select-none items-center text-gray-500 sm:text-sm">
                           <span
                             onClick={() =>
