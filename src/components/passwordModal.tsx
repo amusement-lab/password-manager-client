@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { OpenAPI, PasswordService } from "~~/api/generated";
+import Swal from "sweetalert2";
 
 interface ModalProps {
   show: boolean;
@@ -52,6 +53,16 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
     // If modal closed, hide password visibility
     setPasswordVisibility(false);
   }, [show]);
+
+  const copyToClipboard = async (textToCopy: string) => {
+    await navigator.clipboard.writeText(textToCopy);
+    Swal.fire({
+      position: "top-end",
+      title: "Text copied to clipboard",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
 
   return (
     <Transition.Root show={show} as={Fragment}>
@@ -112,7 +123,12 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
                           className="border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         />
                         <span className="flex mr-3 select-none items-center text-gray-500 sm:text-sm">
-                          <DocumentDuplicateIcon className="w-5 h-5" />
+                          <DocumentDuplicateIcon
+                            onClick={() =>
+                              copyToClipboard(passwordDetailData.username)
+                            }
+                            className="w-5 h-5"
+                          />
                         </span>
                       </div>
 
@@ -138,7 +154,12 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
                               <EyeIcon className="w-5 h-5 mr-2" />
                             )}
                           </span>
-                          <DocumentDuplicateIcon className="w-5 h-5" />
+                          <DocumentDuplicateIcon
+                            onClick={() =>
+                              copyToClipboard(passwordDetailData.password)
+                            }
+                            className="w-5 h-5"
+                          />
                         </span>
                       </div>
                     </div>
