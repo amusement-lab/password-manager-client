@@ -28,6 +28,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
     return Swal.fire({
       title: "Error Login",
+      icon: "error",
       text: err.body.message,
       confirmButtonText: "Ok",
     });

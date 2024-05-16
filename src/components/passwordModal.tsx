@@ -57,10 +57,11 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
   const copyToClipboard = async (textToCopy: string) => {
     await navigator.clipboard.writeText(textToCopy);
     Swal.fire({
-      position: "top-end",
+      position: "top",
       title: "Text copied to clipboard",
+      icon: "success",
       showConfirmButton: false,
-      timer: 1500,
+      timer: 700,
     });
   };
 
