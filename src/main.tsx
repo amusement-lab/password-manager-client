@@ -8,6 +8,7 @@ import "./index.css";
 import { OpenAPI } from "./api/generated";
 
 // TODO: Add Config the header request here, currently we need setup the authentication in header manually
+OpenAPI.BASE = import.meta.env.VITE_API_BASE_URL;
 // OpenAPI.HEADERS = {
 //   Authorization: ``,
 // };
