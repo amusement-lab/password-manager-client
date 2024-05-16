@@ -15,9 +15,10 @@ const userNavigation = [
   { name: "Change key", href: "/change-key" },
   {
     name: "Sign out",
-    href: "/login",
-    onClick: () => {
+    href: "#",
+    onClick: function () {
       localStorage.clear();
+      redirect("/login");
     },
   },
 ];
@@ -117,7 +118,8 @@ export default function MainLayout() {
 
               <Disclosure.Panel className="md:hidden">
                 <div className="border-t border-gray-700 pb-3 pt-4">
-                  <div className="flex items-center px-5 mb-3">
+                  {/* Profile dropdown in Mobile */}
+                  {/* <div className="flex items-center px-5 mb-3">
                     <div className="flex-shrink-0">
                       <img
                         className="h-10 w-10 rounded-full"
@@ -133,14 +135,16 @@ export default function MainLayout() {
                         {user.email}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="space-y-1 px-2">
                     {userNavigation.map((item) => (
                       <Disclosure.Button
                         key={item.name}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-700 hover:text-white"
                       >
-                        <Link to={item.href}>{item.name}</Link>
+                        <Link to={item.href} onClick={item.onClick}>
+                          {item.name}
+                        </Link>
                       </Disclosure.Button>
                     ))}
                   </div>

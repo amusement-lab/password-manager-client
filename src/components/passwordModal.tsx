@@ -128,7 +128,7 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
                             onClick={() =>
                               copyToClipboard(passwordDetailData.username)
                             }
-                            className="w-5 h-5"
+                            className="w-5 h-5 cursor-pointer"
                           />
                         </span>
                       </div>
@@ -150,16 +150,16 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
                             }
                           >
                             {passwordVisibility ? (
-                              <EyeSlashIcon className="w-5 h-5 mr-2" />
+                              <EyeSlashIcon className="w-5 h-5 mr-2 cursor-pointer" />
                             ) : (
-                              <EyeIcon className="w-5 h-5 mr-2" />
+                              <EyeIcon className="w-5 h-5 mr-2 cursor-pointer" />
                             )}
                           </span>
                           <DocumentDuplicateIcon
                             onClick={() =>
                               copyToClipboard(passwordDetailData.password)
                             }
-                            className="w-5 h-5"
+                            className="w-5 h-5 cursor-pointer"
                           />
                         </span>
                       </div>
