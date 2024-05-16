@@ -10,7 +10,7 @@ import {
 import PasswordModal from "~~/components/passwordModal";
 import ConfirmationModal from "~~/components/confirmationModal";
 import { GetPasswords, OpenAPI, PasswordService } from "~~/api/generated";
-import keySvg from "~~/assets/key.svg";
+import keySvg from "~~/assets/key-normal.svg";
 
 export async function loader() {
   OpenAPI.HEADERS = {

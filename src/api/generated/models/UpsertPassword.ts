@@ -7,5 +7,6 @@ export type UpsertPassword = {
     username: string;
     password: string;
     url: string;
+    note: string;
 };
 

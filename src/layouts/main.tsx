@@ -1,21 +1,24 @@
 import { Fragment } from "react";
-import { Outlet, Link, Navigate } from "react-router-dom";
+import { Outlet, Link, redirect } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, KeyIcon } from "@heroicons/react/24/outline";
+
+import userSvg from "~~/assets/user.svg";
 
 const user = {
   name: "Dipadana",
   email: "dipadana@gmail.com",
-  imageUrl: "https://pbs.twimg.com/media/E2w_d6FVkAgXcCd.jpg:small",
+  imageUrl: userSvg,
 };
 
 const userNavigation = [
   { name: "Change key", href: "/change-key" },
   {
     name: "Sign out",
-    href: "/login",
-    onClick: () => {
+    href: "#",
+    onClick: function () {
       localStorage.clear();
+      redirect("/login");
     },
   },
 ];
@@ -24,11 +27,14 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+export function loader() {
   if (localStorage.getItem("token") === null) {
-    return <Navigate to="/login" replace />;
+    return redirect("/login");
   }
+  return null;
+}
 
+export default function MainLayout() {
   return (
     <>
       <div className="min-h-full">
@@ -53,7 +59,7 @@ export default function Example() {
                           <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
                             <img
-                              className="h-9 w-9 rounded-full"
+                              className="h-9 w-9 p-2 bg-indigo-600 rounded-full"
                               src={user.imageUrl}
                               alt=""
                             />
@@ -112,7 +118,8 @@ export default function Example() {
 
               <Disclosure.Panel className="md:hidden">
                 <div className="border-t border-gray-700 pb-3 pt-4">
-                  <div className="flex items-center px-5 mb-3">
+                  {/* Profile dropdown in Mobile */}
+                  {/* <div className="flex items-center px-5 mb-3">
                     <div className="flex-shrink-0">
                       <img
                         className="h-10 w-10 rounded-full"
@@ -128,14 +135,16 @@ export default function Example() {
                         {user.email}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="space-y-1 px-2">
                     {userNavigation.map((item) => (
                       <Disclosure.Button
                         key={item.name}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-700 hover:text-white"
                       >
-                        <Link to={item.href}>{item.name}</Link>
+                        <Link to={item.href} onClick={item.onClick}>
+                          {item.name}
+                        </Link>
                       </Disclosure.Button>
                     ))}
                   </div>

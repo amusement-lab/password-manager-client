@@ -10,5 +10,6 @@ export type Password = {
     username: string;
     password: string;
     url: string;
+    note: string;
 };
 

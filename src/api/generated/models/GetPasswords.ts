@@ -7,4 +7,5 @@ export type GetPasswords = Array<{
     title: string;
     username: string;
     url: string;
+    note: string;
 }>;

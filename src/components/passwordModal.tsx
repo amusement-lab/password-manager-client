@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { OpenAPI, PasswordService } from "~~/api/generated";
+import Swal from "sweetalert2";
 
 interface ModalProps {
   show: boolean;
@@ -41,11 +42,28 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
   }>(initPasswordDetailData);
 
   useEffect(() => {
+    // If new password data loaded, clear the field before show new password detail
     setPasswordDetailData(initPasswordDetailData);
     if (id) {
       loader(id).then((data) => setPasswordDetailData(data.password));
     }
   }, [id]);
+
+  useEffect(() => {
+    // If modal closed, hide password visibility
+    setPasswordVisibility(false);
+  }, [show]);
+
+  const copyToClipboard = async (textToCopy: string) => {
+    await navigator.clipboard.writeText(textToCopy);
+    Swal.fire({
+      position: "top",
+      title: "Text copied to clipboard",
+      icon: "success",
+      showConfirmButton: false,
+      timer: 700,
+    });
+  };
 
   return (
     <Transition.Root show={show} as={Fragment}>
@@ -106,7 +124,12 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
                           className="border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         />
                         <span className="flex mr-3 select-none items-center text-gray-500 sm:text-sm">
-                          <DocumentDuplicateIcon className="w-5 h-5" />
+                          <DocumentDuplicateIcon
+                            onClick={() =>
+                              copyToClipboard(passwordDetailData.username)
+                            }
+                            className="w-5 h-5 cursor-pointer"
+                          />
                         </span>
                       </div>
 
@@ -117,8 +140,9 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
                           id="password"
                           value={passwordDetailData.password}
                           readOnly={true}
-                          className="border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                          className="w-full border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         />
+
                         <span className="flex mr-3 select-none items-center text-gray-500 sm:text-sm">
                           <span
                             onClick={() =>
@@ -126,12 +150,17 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
                             }
                           >
                             {passwordVisibility ? (
-                              <EyeSlashIcon className="w-5 h-5 mr-2" />
+                              <EyeSlashIcon className="w-5 h-5 mr-2 cursor-pointer" />
                             ) : (
-                              <EyeIcon className="w-5 h-5 mr-2" />
+                              <EyeIcon className="w-5 h-5 mr-2 cursor-pointer" />
                             )}
                           </span>
-                          <DocumentDuplicateIcon className="w-5 h-5" />
+                          <DocumentDuplicateIcon
+                            onClick={() =>
+                              copyToClipboard(passwordDetailData.password)
+                            }
+                            className="w-5 h-5 cursor-pointer"
+                          />
                         </span>
                       </div>
                     </div>

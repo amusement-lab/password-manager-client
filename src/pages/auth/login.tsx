@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { useState } from "react";
 import { KeyIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import Swal from "sweetalert2";
 
 import { LoginUser, UserService } from "~~/api/generated";
 
@@ -22,9 +23,15 @@ export async function action({ request }: ActionFunctionArgs) {
       localStorage.setItem("token", response.token);
       return redirect("/");
     }
-  } catch (err) {
+  } catch (err: any) {
     console.log(err.body);
-    return err;
+
+    return Swal.fire({
+      title: "Error Login",
+      icon: "error",
+      text: err.body.message,
+      confirmButtonText: "Ok",
+    });
   }
 }
 
@@ -67,7 +74,7 @@ export default function Login() {
                 name="username"
                 type="text"
                 autoComplete="username"
-                placeholder="Username"
+                placeholder="Email" // In this client, email is username
                 required
                 className="block w-full rounded-md border-0 py-1.5 px-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
