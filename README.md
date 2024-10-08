@@ -19,6 +19,10 @@ pnpm install
 
 2. Setup your `.env`.
 
+```bash
+cp .env.example .env
+```
+
 ```js
 VITE_API_BASE_URL = "http://localhost:3000"; // Use port from your server host
 ```
