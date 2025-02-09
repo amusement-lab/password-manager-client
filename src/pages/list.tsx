@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState, useEffect } from "react";
 import { Link, useLoaderData, useRevalidator } from "react-router-dom";
 import {
   EyeIcon,
@@ -17,6 +17,7 @@ export async function loader() {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   };
   const passwords = await PasswordService.getPassword();
+  console.log(passwords);
   return { passwords };
 }
 
@@ -55,6 +56,10 @@ export default function List() {
     // https://www.designcise.com/web/tutorial/how-to-fix-property-src-does-not-exist-on-type-eventtarget-typescript-error
     (e.target as HTMLImageElement).src = imageUrl;
   };
+
+  useEffect(() => {
+    console.log("List component mounted");
+  }, []);
 
   return (
     <>

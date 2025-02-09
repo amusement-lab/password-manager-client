@@ -15,10 +15,9 @@ const userNavigation = [
   { name: "Change key", href: "/change-key" },
   {
     name: "Sign out",
-    href: "#",
+    href: "/login",
     onClick: function () {
       localStorage.clear();
-      redirect("/login");
     },
   },
 ];
