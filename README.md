@@ -41,10 +41,10 @@ http://localhost:5173
 
 ## NodeJS and Server Version Environment
 
-- Typescript = v5.4.5
-- NodeJS = v20.11.1
-- PNPM = v8.15.6
-- Server = [v1.2.6](https://github.com/amusement-lab/password-manager-server)
+- Typescript = v5.8.3
+- NodeJS = v22.16.0
+- PNPM = v10.11.0
+- Server = [v1.2.9](https://github.com/amusement-lab/password-manager-server)
 
 ### Some further developments, if you want to contribute, here the top priority
 
