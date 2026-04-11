@@ -102,8 +102,8 @@ export default function Modal({ show = false, id, closeModal }: ModalProps) {
                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
                       <img
                         className="sm-h-12 sm-w-12 flex-none rounded-full bg-gray-50"
-                        src={`https://logo.clearbit.com/${passwordDetailData.url}`}
-                        alt=""
+                        src={`https://logos-api.apistemic.com/domain:${passwordDetailData.url}`}
+                        alt="image url logo"
                       />
                     </div>
                     <div className="w-full mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">

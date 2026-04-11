@@ -50,7 +50,7 @@ export default function List() {
 
   const onErrorImage = (
     e: SyntheticEvent<HTMLImageElement, Event>,
-    imageUrl: string
+    imageUrl: string,
   ) => {
     // https://www.designcise.com/web/tutorial/how-to-fix-property-does-not-exist-on-type-eventtarget-typescript-error
     // https://www.designcise.com/web/tutorial/how-to-fix-property-src-does-not-exist-on-type-eventtarget-typescript-error
@@ -106,7 +106,7 @@ export default function List() {
                       <div className="flex gap-x-4">
                         <img
                           className="h-12 w-12 p-1 flex-none rounded-full border-solid border-[0.5px] border-gray-200"
-                          src={`https://logo.clearbit.com/${password.url}`}
+                          src={`https://logos-api.apistemic.com/domain:${password.url}`}
                           alt="image url logo"
                           onError={(e) => onErrorImage(e, keySvg)}
                         />

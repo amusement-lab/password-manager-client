@@ -9,8 +9,6 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "ncu": "ncu",
-    "ncu:u": "ncu -u",
-    "ncu:i": "ncu -i",
     "generate-api-client": "openapi --input http://localhost:3000/open-api-json --output ./src/api/generated --useUnionTypes"
   },
   "dependencies": {
