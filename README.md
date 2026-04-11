@@ -49,3 +49,5 @@ http://localhost:5173
 ### Some further developments, if you want to contribute, here the top priority
 
 - For now, you can only save the password, but later you can save bank cards, notes, addresses and documents
+- Upgrade the tailwindcss
+- Migrate to oxfmt, oxlint, and better to vite+
